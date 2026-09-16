@@ -105,6 +105,8 @@ jobs:
         rm -f $GITHUB_WORKSPACE/kernel_workspace/clang-zyc/bin/as
         
         sed -i 's/clock_gettime_return, shift=1/clock_gettime_return shift=1/g' arch/arm64/kernel/vdso/gettimeofday.S
+
+        ln -sf $(which aarch64-linux-gnu-ld) $GITHUB_WORKSPACE/kernel_workspace/clang-zyc/bin/ld
         
         export PATH=$GITHUB_WORKSPACE/kernel_workspace/clang-zyc/bin:$PATH
         export KBUILD_BUILD_HOST=17
