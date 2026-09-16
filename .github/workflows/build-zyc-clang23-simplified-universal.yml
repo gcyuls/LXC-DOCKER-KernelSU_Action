@@ -104,6 +104,8 @@ jobs:
         # 2. 删掉 zyc 目录下那个冒充 GNU 汇编器的伪装软链接
         rm -f $GITHUB_WORKSPACE/kernel_workspace/clang-zyc/bin/as
         
+        sed -i 's/clock_gettime_return, shift=1/clock_gettime_return shift=1/g' arch/arm64/kernel/vdso/gettimeofday.S
+        
         export PATH=$GITHUB_WORKSPACE/kernel_workspace/clang-zyc/bin:$PATH
         export KBUILD_BUILD_HOST=17
         export KBUILD_BUILD_USER=HyperPower
