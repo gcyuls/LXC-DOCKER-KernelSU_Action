@@ -97,7 +97,13 @@ jobs:
     - name: 开始编译内核
       run: |
         cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
-        sed -i 's/-no-integrated-as//g' arch/arm64/Makefile
+        
+        # 1. 全局递归搜索并删除源码树中所有地方的 -no-integrated-as（包括主 Makefile）
+        grep -rl -- "-no-integrated-as" . | xargs -r sed -i 's/-no-integrated-as//g'
+        
+        # 2. 删掉 zyc 目录下那个冒充 GNU 汇编器的伪装软链接
+        rm -f $GITHUB_WORKSPACE/kernel_workspace/clang-zyc/bin/as
+        
         export PATH=$GITHUB_WORKSPACE/kernel_workspace/clang-zyc/bin:$PATH
         export KBUILD_BUILD_HOST=17
         export KBUILD_BUILD_USER=HyperPower
